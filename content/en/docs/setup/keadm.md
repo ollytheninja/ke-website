@@ -9,14 +9,14 @@ title: Deploying using Keadm
 toc: true
 type: docs
 ---
-Keadm is used to install the cloud and edge components of KubeEdge. It is not responsible for installing K8s and runtime.
+Keadm is used to install the cloud and edge components of KubeEdge. It is not responsible for installing Kubernetes and runtime.
 
-Please refer [kubernetes-compatibility](https://github.com/kubeedge/kubeedge#kubernetes-compatibility) to get **Kubernetes compatibility** and determine what version of Kubernetes would be installed.
+Please refer to [kubernetes-compatibility](https://github.com/kubeedge/kubeedge#kubernetes-compatibility) to see **Kubernetes compatibility** and determine what version of Kubernetes would be installed.
 
 ## Limitation
 
-- Currently support of `keadm` is available for Ubuntu and CentOS OS. RaspberryPi supports is in-progress.
-- Need super user rights (or root rights) to run.
+- Currently support of `keadm` is available for Ubuntu and CentOS OS. RaspberryPi support is in progress.
+- `keadm` requires super user rights (or root rights) to run.
 
 ## Install keadm
 
@@ -28,7 +28,7 @@ Run the command below to one-click install `keadm`.
 
 ## Setup Cloud Side (KubeEdge Master Node)
 
-By default ports `10000` and `10002` in your cloudcore needs to be accessible for your edge nodes.
+By default ports `10000` and `10002` in your cloudcore need to be accessible from your edge nodes.
 
 ### keadm init 
 
@@ -37,8 +37,8 @@ By default ports `10000` and `10002` in your cloudcore needs to be accessible fo
 **IMPORTANT NOTE:**  
 
 1. At least one of kubeconfig or master must be configured correctly, so that it can be used to verify the version and other info of the k8s cluster.
-2. Please make sure edge node can connect cloud node using local IP of cloud node, or you need to specify public IP of cloud node with `--advertise-address` flag.
-3. `--advertise-address`(only work since 1.3 release) is the address exposed by the cloud side (will be added to the SANs of the CloudCore certificate), the default value is the local IP. 
+2. Each edge node needs to be able to connect to the cloud node using the local IP of the cloud node, or you can manually specify the public IP of the cloud node with `--advertise-address` flag.
+3. `--advertise-address` (since 1.3 release) is the address exposed by the cloud side (will be added to the SANs of the CloudCore certificate), the default value is the local IP. 
 
     Example:
     ```shell
@@ -52,7 +52,7 @@ By default ports `10000` and `10002` in your cloudcore needs to be accessible fo
     KubeEdge cloudcore is running, For logs visit:  /var/log/kubeedge/cloudcore.log
     ```
   
-4. `keadm init` deploy cloudcore in binary process as system service, if you want to deploy cloudcore as container, please ref `keadm beta init` below.
+4. `keadm init` deploy cloudcore in binary process as system service, if you want to deploy cloudcore as a container instead, please ref `keadm beta init` below.
 
 ### keadm beta init
 
@@ -65,8 +65,8 @@ Example:
 ```
 
 **IMPORTANT NOTE:**  
-1. Set flags `--set key=value` for cloudcore helm chart could refer to [KubeEdge Cloudcore Helm Charts README.md](https://github.com/kubeedge/kubeedge/blob/master/build/helm/charts/cloudcore/README.md).  
-2. You can start with one of Keadm’s built-in configuration profiles and then further customize the configuration for your specific needs. Currently, the built-in configuration profile keyword is `version`. Refer to `[version.yaml](https://github.com/kubeedge/kubeedge/blob/master/build/helm/charts/profiles/version.yaml)` as `values.yaml`, you can make your custom values file here, and add flags like `--profile version=v1.9.0 --set key=value` to use this profile.
+1. Set flags `--set key=value` for cloudcore helm chart are documented in the [KubeEdge Cloudcore Helm Charts README.md](https://github.com/kubeedge/kubeedge/blob/master/build/helm/charts/cloudcore/README.md).  
+2. You can start with one of Keadm’s built-in configuration profiles and then further customize the configuration for your specific needs. Currently, the built-in configuration profile keyword is `version`. Copy `[version.yaml](https://github.com/kubeedge/kubeedge/blob/master/build/helm/charts/profiles/version.yaml)` as `values.yaml`, you can make then customise the values as needed, and add flags `--profile version=v1.9.0 --set key=value` to use this profile.
 
 `--external-helm-root` flag provides a feature function to install the external helm charts like edgemesh.
 
@@ -93,7 +93,7 @@ Example:
 
 ### Get Token From Cloud Side
 
-Run `keadm gettoken` in **cloud side** will return the token, which will be used when joining edge nodes.
+Run `keadm gettoken` on **cloud side** to get a join token, which will be used when joining edge nodes.
 
 ```shell
 # keadm gettoken
@@ -111,8 +111,8 @@ Example:
 ```
 
 **IMPORTANT NOTE:**  
-1. `--cloudcore-ipport` flag is a mandatory flag.  
-2. If you want to apply certificate for edge node automatically, `--token` is needed.  
+1. `--cloudcore-ipport` mandatory flag pointing at the cloudcore service.
+2. If you want to apply a certificate for the edge node automatically, `--token` is needed.  
 3. The kubeEdge version used in cloud and edge side should be same.
 
 Output:
@@ -127,7 +127,7 @@ KubeEdge edgecore is running, For logs visit:  /var/log/kubeedge/edgecore.log
 
 ### Enable `kubectl logs` Feature
 
-Before metrics-server deployed, `kubectl logs` feature must be activated:
+Before `metrics-server` is deployed, the `kubectl logs` feature must be activated:
 
 1. Make sure you can find the kubernetes `ca.crt` and `ca.key` files. If you set up your kubernetes cluster by `kubeadm` , those files will be in `/etc/kubernetes/pki/` dir.
 
