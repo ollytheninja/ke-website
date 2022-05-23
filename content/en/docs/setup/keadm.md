@@ -65,7 +65,7 @@ Example:
 ```
 
 **IMPORTANT NOTE:**  
-1. Set flags `--set key=value` for cloudcore helm chart are documented in the [KubeEdge Cloudcore Helm Charts README.md](https://github.com/kubeedge/kubeedge/blob/master/build/helm/charts/cloudcore/README.md).  
+1. Set flags `--set key=value` for cloudcore helm chart are documented in the [KubeEdge Cloudcore Helm Charts README.md](https://github.com/kubeedge/kubeedge/tree/master/manifests/charts/cloudcore).  
 2. You can start with one of Keadm’s built-in configuration profiles and then further customize the configuration for your specific needs. Currently, the built-in configuration profile keyword is `version`. Copy `[version.yaml](https://github.com/kubeedge/kubeedge/blob/master/build/helm/charts/profiles/version.yaml)` as `values.yaml`, you can make then customise the values as needed, and add flags `--profile version=v1.9.0 --set key=value` to use this profile.
 
 `--external-helm-root` flag provides a feature function to install the external helm charts like edgemesh.
